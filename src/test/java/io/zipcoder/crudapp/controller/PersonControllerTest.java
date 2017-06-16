@@ -32,13 +32,6 @@ public class PersonControllerTest {
     @Autowired
     PersonRepository personRepository;
 
-
-//    @BeforeClass
-//    public static void init(){
-//
-//    }
-
-
     @Test
     public void getAllPeopleTest(){
         //Given
@@ -63,6 +56,7 @@ public class PersonControllerTest {
         int actualAge2 = list.get(1).getAge();
         int actualId1 = list.get(0).getId();
         int actualId2 = list.get(1).getId();
+        HttpStatus actualStatus = personController.getAllPeople().getStatusCode();
 
         //Then
         assertEquals(expectedName1, actualName1);
@@ -71,6 +65,20 @@ public class PersonControllerTest {
         assertEquals(expectedAge2, actualAge2);
         assertEquals(expectedId1, actualId1);
         assertEquals(expectedId2, actualId2);
+        assertTrue(actualStatus.equals(HttpStatus.OK));
 
+    }
+
+    @Test
+    public void getAllPeopleNotFoundTest(){
+
+        //When
+        ResponseEntity<List<Person>> actual = personController.getAllPeople();
+        List<Person> actualList = actual.getBody();
+        HttpStatus actualStatus = actual.getStatusCode();
+
+        //Then
+        assertNull(actualList);
+        assertEquals(HttpStatus.NO_CONTENT, actualStatus);
     }
 }
