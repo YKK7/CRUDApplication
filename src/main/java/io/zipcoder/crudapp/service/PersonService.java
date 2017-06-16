@@ -33,4 +33,8 @@ public class PersonService {
     public void insertPerson(Person person) {
         personRepository.save(person);
     }
+
+    public boolean idExists(int id){
+        return personRepository.exists(id);
+    }
 }
